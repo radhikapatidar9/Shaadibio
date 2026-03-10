@@ -4,6 +4,16 @@ ShaadiBio is a web application that allows users to easily create and download b
 
 ---
 
+## Live Demo
+
+Frontend (Netlify):  
+https://fantastic-begonia-61ea38.netlify.app
+
+Backend API (Render):  
+https://shaadibio-backend-m2mt.onrender.com
+
+---
+
 ## Features
 
 - User authentication (Signup/Login)
