@@ -47,7 +47,7 @@ exports.sendOTP = async(req, res) => {
         // create an entry for otp
         await OTP.create(otpPayload);
 
-        await mailSender(email, "Verification OTP", `Your OTP is ${otp}`);
+        // await mailSender(email, "Verification OTP", `Your OTP is ${otp}`);
 
         // return response successful
         return res.status(200).json({
