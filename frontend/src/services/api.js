@@ -2,7 +2,7 @@ import axios from "axios"
 
 const API = axios.create({
 
-baseURL: "https://shaadibio-backend-m2mt.onrender.com"
+baseURL: "https://shaadibio-backend-m2mt.onrender.com/api/v1"
 
 })
 
