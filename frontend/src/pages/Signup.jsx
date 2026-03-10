@@ -26,7 +26,7 @@ try{
     console.log("Sending email:", formData.email)
 
 await axios.post(
-"http://localhost:5000/api/v1/auth/send-otp",
+"https://shaadibio-backend-m2mt.onrender.com/api/v1/auth/send-otp",
 {email:formData.email}
 )
 
@@ -46,7 +46,7 @@ e.preventDefault()
 try{
 
 await axios.post(
-"http://localhost:5000/api/v1/auth/signup",
+"https://shaadibio-backend-m2mt.onrender.com/api/v1/auth/signup",
 formData
 )
 
