@@ -19,7 +19,15 @@ const fileUpload = require('express-fileupload');
 const PORT = process.env.PORT || 5000;
 
 // connect to db
-dbConnect();
+dbConnect()
+.then(() => {
+    app.listen(PORT, () => {
+        console.log(`App listening at port ${PORT}`);
+    });
+})
+.catch((error) => {
+    console.log("Database connection failed:", error);
+});
 
 // middlewares
 // add body parser
@@ -54,7 +62,3 @@ app.get("/", (req, res) => {
     })
 })
 
-// activate server
-app.listen(PORT, () => {
-    console.log(`App listen at port ${PORT} successfully`)
-})
