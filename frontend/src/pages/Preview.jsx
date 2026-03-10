@@ -18,7 +18,7 @@ try{
 const token = localStorage.getItem("token")
 
 const res = await axios.get(
-`http://localhost:5000/api/v1/biodata/preview/${id}`,
+`https://shaadibio-backend-m2mt.onrender.com/api/v1/biodata/preview/${id}`,
 {
 headers:{
 Authorization:`Bearer ${token}`

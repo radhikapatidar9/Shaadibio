@@ -18,7 +18,7 @@ const fetchBiodatas = async ()=>{
 const token = localStorage.getItem("token")
 
 const res = await axios.get(
-"http://localhost:5000/api/v1/biodata/my-biodata",
+"https://shaadibio-backend-m2mt.onrender.com/api/v1/biodata/my-biodata",
 {
 headers:{
 Authorization:`Bearer ${token}`
@@ -37,7 +37,7 @@ try{
 const token = localStorage.getItem("token")
 
 const res = await axios.get(
-`http://localhost:5000/api/v1/auth/download-pdf/${id}`,
+`https://shaadibio-backend-m2mt.onrender.com/api/v1/auth/download-pdf/${id}`,
 {
 responseType:"blob",
 headers:{
@@ -72,7 +72,7 @@ try{
 const token = localStorage.getItem("token")
 
 await axios.delete(
-`http://localhost:5000/api/v1/biodata/delete-biodata/${id}`,
+`https://shaadibio-backend-m2mt.onrender.com/api/v1/biodata/delete-biodata/${id}`,
 {
 headers:{
 Authorization:`Bearer ${token}`

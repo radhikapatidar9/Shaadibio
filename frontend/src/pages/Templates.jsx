@@ -18,7 +18,7 @@ const fetchTemplates = async ()=>{
 try{
 
 const res = await axios.get(
-"http://localhost:5000/api/v1/template/templates"
+"https://shaadibio-backend-m2mt.onrender.com/api/v1/template/templates"
 )
 
 setTemplates(res.data.data)

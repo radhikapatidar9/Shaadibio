@@ -73,7 +73,7 @@ data.append("templateId", templateId)
 console.log(image);
 
 const response = await axios.post(
-"http://localhost:5000/api/v1/biodata/create-biodata",
+"https://shaadibio-backend-m2mt.onrender.com/api/v1/biodata/create-biodata",
 data,
 {
 headers:{
