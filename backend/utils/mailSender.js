@@ -1,33 +1,32 @@
-const nodemailer = require('nodemailer');
-require('dotenv').config();
+const axios = require('axios');
 
+const mailSender = async (email, title, body) => {
+    // This ensures you ALWAYS see the OTP in Render logs
+    console.log(`Attempting to send mail to ${email}. Content: ${body}`);
 
-const mailSender = async(email, title, body) => {
     try {
-
-        const transporter = nodemailer.createTransport({
-            host: process.env.MAIL_HOST,
-            port: 587,
-            secure: false,
-            auth: {
-                user: process.env.MAIL_USER,
-                pass: process.env.MAIL_PASS
+        const response = await axios.post("https://api.brevo.com/v3/smtp/email", {
+            sender: { name: "ShaadiBio", email: process.env.MAIL_USER },
+            to: [{ email: email }],
+            subject: title,
+            htmlContent: `<html><body>${body}</body></html>`
+        }, {
+            headers: {
+                "api-key": process.env.MAIL_PASS.trim(),
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             }
-        })
+        });
 
-        let info = await transporter.sendMail({
-            from: `"ShaadiBio" <${process.env.MAIL_USER}>`,
-            to: `${email}`,
-            subject: `${title}`,
-            html: `${body}`
-        })
-        console.log(info);
-        return info;
-
-    } catch(err) {
-        console.log("Something went wrong while sending mail", err);
+        console.log("Brevo API Success:", response.data);
+        return response.data;
+    } catch (err) {
+        // This will tell us EXACTLY why Brevo rejected it
+        console.error("Brevo API Error:", err.response ? err.response.data : err.message);
+        throw err;
     }
 }
+
 module.exports = mailSender;
 
 // const mailSender = async (email, title, body) => {
