@@ -120,7 +120,7 @@ if(recentOTP.length === 0){
    })
 }
 
-if(otp !== recentOTP[0].otp){
+if(otp !== String(recentOTP[0].otp)){
    return res.status(401).json({
       success:false,
       message:"Invalid OTP"

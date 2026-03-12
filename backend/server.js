@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(cookieParser());  //cookie-parser
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: "https://fantastic-begonia-61ea38.netlify.app",
   credentials: true
 }));
 
