@@ -32,6 +32,7 @@ async function emailVerification(email, otp) {
 
 otpSchema.pre("save", async function() {
     await emailVerification(this.email, this.otp);
+    next();
 })
 
 module.exports = mongoose.model("OTP", otpSchema);
