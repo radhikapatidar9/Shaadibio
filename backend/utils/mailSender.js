@@ -1,32 +1,59 @@
+const { Resend } = require('resend');
 
-
-const SibApiV3Sdk = require('@getbrevo/brevo');
+// Add RESEND_API_KEY to your Render Environment Variables
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const mailSender = async (email, title, body) => {
-    // We are setting the key directly into the SDK's internal configuration
-    let defaultClient = SibApiV3Sdk.ApiClient.instance;
-    let apiKey = defaultClient.authentications['api-key'];
-    apiKey.apiKey = process.env.MAIL_PASS.trim(); 
-
-    let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-    let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-
-    sendSmtpEmail.subject = title;
-    sendSmtpEmail.htmlContent = `<html><body>${body}</body></html>`;
-    sendSmtpEmail.sender = { "name": "ShaadiBio", "email": process.env.MAIL_USER.trim() };
-    sendSmtpEmail.to = [{ "email": email }];
-
     try {
-        const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
-        console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+        console.log("Attempting to send mail via Resend...");
+        
+        const data = await resend.emails.send({
+            from: 'onboarding@resend.dev', // Use this for testing
+            to: email,
+            subject: title,
+            html: `<strong>${body}</strong>`,
+        });
+
+        console.log("Resend Success:", data);
         return data;
     } catch (error) {
-        console.error("BREVO SDK ERROR:", error.response ? error.response.text : error.message);
+        console.error("Resend Error:", error);
         throw error;
     }
 };
 
 module.exports = mailSender;
+
+
+
+
+// const SibApiV3Sdk = require('@getbrevo/brevo');
+
+// const mailSender = async (email, title, body) => {
+//     // We are setting the key directly into the SDK's internal configuration
+//     let defaultClient = SibApiV3Sdk.ApiClient.instance;
+//     let apiKey = defaultClient.authentications['api-key'];
+//     apiKey.apiKey = process.env.MAIL_PASS.trim(); 
+
+//     let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+//     let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+
+//     sendSmtpEmail.subject = title;
+//     sendSmtpEmail.htmlContent = `<html><body>${body}</body></html>`;
+//     sendSmtpEmail.sender = { "name": "ShaadiBio", "email": process.env.MAIL_USER.trim() };
+//     sendSmtpEmail.to = [{ "email": email }];
+
+//     try {
+//         const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+//         console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+//         return data;
+//     } catch (error) {
+//         console.error("BREVO SDK ERROR:", error.response ? error.response.text : error.message);
+//         throw error;
+//     }
+// };
+
+// module.exports = mailSender;
 
 
 
