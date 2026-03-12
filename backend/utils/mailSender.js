@@ -47,8 +47,9 @@ const mailSender = async (email, title, body) => {
             htmlContent: `<html><body>${body}</body></html>`
         }, {
             headers: {
-                "api-key": process.env.MAIL_PASS,
-                "Content-Type": "application/json"
+                "api-key": `${process.env.MAIL_PASS}`, // Adding template literal ensures it's treated as a string
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             }
         });
 
