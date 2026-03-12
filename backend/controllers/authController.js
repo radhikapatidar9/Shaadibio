@@ -47,12 +47,22 @@ exports.sendOTP = async(req, res) => {
         // create an entry for otp
         await OTP.create(otpPayload);
 
+        try {
+                const info = await mailSender(email, "Verification OTP", `Your OTP is ${otp}`);
+                console.log("MAIL SENDER INFO:", info);
+            } catch(mailError) {
+                console.log("MAIL SENDER FAILED:", mailError);
+            }
+
         // await mailSender(email, "Verification OTP", `Your OTP is ${otp}`);
 
         // return response successful
         return res.status(200).json({
             success: true,
+            data: otpPayload,
+            info,
             message: "Otp send Successfully!",
+
         })
 
     } catch(err) {
