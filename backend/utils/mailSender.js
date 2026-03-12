@@ -1,28 +1,38 @@
 const axios = require('axios');
 
 const mailSender = async (email, title, body) => {
-    // This ensures you ALWAYS see the OTP in Render logs
-    console.log(`Attempting to send mail to ${email}. Content: ${body}`);
+    // 1. Debug log to verify Render is actually seeing the key
+    // We only log the length and the first 10 chars to keep it secure
+    const key = process.env.MAIL_PASS ? process.env.MAIL_PASS.trim() : "";
+    console.log(`Key check: Length=${key.length}, Starts with=${key.substring(0, 10)}`);
 
     try {
-        const response = await axios.post("https://api.brevo.com/v3/smtp/email", {
-            sender: { name: "ShaadiBio", email: process.env.MAIL_USER },
-            to: [{ email: email }],
-            subject: title,
-            htmlContent: `<html><body>${body}</body></html>`
-        }, {
+        const response = await axios({
+            method: 'post',
+            url: 'https://api.brevo.com/v3/smtp/email',
             headers: {
-                "api-key": process.env.MAIL_PASS.trim(),
-                "Content-Type": "application/json",
-                "Accept": "application/json"
+                // Force the header name as a string to prevent hyphen issues
+                'api-key': key, 
+                'content-type': 'application/json',
+                'accept': 'application/json'
+            },
+            data: {
+                sender: { 
+                    name: "ShaadiBio", 
+                    email: process.env.MAIL_USER.trim() 
+                },
+                to: [{ email: email }],
+                subject: title,
+                htmlContent: `<html><body>${body}</body></html>`
             }
         });
 
-        console.log("Brevo API Success:", response.data);
+        console.log("SUCCESS: Email sent via Brevo API");
         return response.data;
+
     } catch (err) {
-        // This will tell us EXACTLY why Brevo rejected it
-        console.error("Brevo API Error:", err.response ? err.response.data : err.message);
+        // This will print the EXACT error message from Brevo
+        console.error("BREVO ERROR:", err.response ? err.response.data : err.message);
         throw err;
     }
 }
